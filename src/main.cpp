@@ -1,20 +1,21 @@
 #include <raylib.h>
+#include "grid.h"
+#include "gui.h"
+#include "screen.h"
 
 int main()
 {
-    Color darkGreen = Color{20, 160, 133, 255};
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "game of life");
+    SetTargetFPS(FPS);
 
-    const int screenWidth = 800;
-    const int screenHeight = 600;
-
-
-    InitWindow(screenWidth, screenHeight, "My first RAYLIB program!");
-    SetTargetFPS(60);
+    Grid grid(GRID_SIZE, NUM_ROW, NUM_COL);
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
-        ClearBackground(darkGreen);
+            ClearBackground(BG_COLOR);
+            grid.update();
+            grid.draw();
         EndDrawing();
     }
 
