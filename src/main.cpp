@@ -9,11 +9,14 @@ int main()
     SetTargetFPS(FPS);
 
     Grid grid(GRID_SIZE, NUM_ROW, NUM_COL);
+    grid.initialiseCells();
+
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
             ClearBackground(BG_COLOR);
+            
             grid.update();
             grid.draw();
         EndDrawing();
