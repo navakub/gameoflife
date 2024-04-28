@@ -1,7 +1,6 @@
 #include <raylib.h>
 #include "screen.h"
 #include "grid.h"
-#include <cstdio>
 
 Grid::Grid(int _gridSize, int _numRow, int _numCol){ 
     gridSize = _gridSize;
@@ -10,7 +9,10 @@ Grid::Grid(int _gridSize, int _numRow, int _numCol){
 }
 
 void Grid::initialiseCells(){
-    for(int i=0; i<size; i++) cells[i] = 0;
+    for(int i=0; i<size; i++) {
+        cells[i] = 0;
+        new_cells[i] = 0;
+    }
 }
 
 int* Grid::idx_1d_to_2d(int index){
@@ -50,12 +52,16 @@ void Grid::draw(){
 void Grid::update(){
     int x = GetMouseX();
     int y = GetMouseY();
-    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && isOnBoard(x, y)) {
-        int index = idx_2d_to_1d((x - OFFSET)/GRID_SIZE, (y - OFFSET)/GRID_SIZE);
-        if(cells[index] == 0) {
-            cells[index] = 1;
-        }else if(cells[index] == 1){
-            cells[index] = 0;
+    
+    if(!isRunning){
+        if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && isOnBoard(x, y)) {
+            int index = idx_2d_to_1d((x - OFFSET)/GRID_SIZE, (y - OFFSET)/GRID_SIZE);
+            if(cells[index] == 0) {
+                cells[index] = 1;
+            }else{
+                cells[index] = 0;
+            }
         }
     }
+    
 }

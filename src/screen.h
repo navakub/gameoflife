@@ -13,3 +13,8 @@ const int BOARD_WIDTH = SCREEN_HEIGHT - 2*OFFSET;
 const int BOARD_HEIGHT = SCREEN_HEIGHT - 2*OFFSET;
 const int NUM_ROW = BOARD_HEIGHT/GRID_SIZE;
 const int NUM_COL = BOARD_WIDTH/GRID_SIZE;
+
+const int BTN_WIDTH = SCREEN_WIDTH - BOARD_WIDTH - 2*OFFSET;
+const int BTN_HEIGHT = 50;
+
+bool isRunning = false;

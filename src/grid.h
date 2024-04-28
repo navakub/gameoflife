@@ -24,4 +24,5 @@ private:
 
     int size = numRow * numCol;
     int* cells = new int[size];
+    int* new_cells = new int[size];
 };
