@@ -1,24 +1,23 @@
 #include <raylib.h>
 
-const Color BG_COLOR = Color(WHITE);
-const int FPS = 60;
+extern Color BG_COLOR;
+extern int FPS;
 
-const int OFFSET = 20;
+extern int OFFSET;
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-const int GRID_SIZE = 50;
+extern int SCREEN_WIDTH;
+extern int SCREEN_HEIGHT;
+extern int GRID_SIZE;
 
-const int BOARD_WIDTH = SCREEN_HEIGHT - 2*OFFSET;
-const int BOARD_HEIGHT = SCREEN_HEIGHT - 2*OFFSET;
-const int NUM_ROW = BOARD_HEIGHT/GRID_SIZE;
-const int NUM_COL = BOARD_WIDTH/GRID_SIZE;
+extern int BOARD_WIDTH;
+extern int BOARD_HEIGHT;
+extern int NUM_ROW;
+extern int NUM_COL;
 
+extern char* txt_start;
+extern char* txt_stop;
+extern char* txt_clear;   
+extern int BTN_WIDTH;
+extern int BTN_HEIGHT;
 
-const char* txt_start ="START";
-const char* txt_stop = "STOP";
-const char* txt_clear = "CLEAR";
-const int BTN_WIDTH = SCREEN_WIDTH - BOARD_WIDTH - 2*OFFSET;
-const int BTN_HEIGHT = 50;
-
-bool isRunning = false;
+extern bool isRunning;

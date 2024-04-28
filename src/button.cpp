@@ -26,7 +26,7 @@ bool Button::isOnButton(){
     int mouseY = GetMouseY();
     return mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y +h;
 }
-
+/*
 void Button::onButtonClicked(){
     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && isOnButton()){
         if(strcmp(text, txt_start) == 0 && !isRunning){
@@ -37,4 +37,4 @@ void Button::onButtonClicked(){
             isRunning = false;
         }
     }
-}
+}*/

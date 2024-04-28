@@ -59,16 +59,15 @@ void Grid::update(){
     int y = GetMouseY();
     // int* cells_neighbour = new int[8];
     
-    if(!isRunning){
-        if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && isOnBoard(x, y)) {
-            int index = idx_2d_to_1d((x - OFFSET)/GRID_SIZE, (y - OFFSET)/GRID_SIZE);
-            if(cells[index] == 0) {
-                cells[index] = 1;
-            }else{
-                cells[index] = 0;
-            }
+    if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && isOnBoard(x, y)) {
+        int index = idx_2d_to_1d((x - OFFSET)/GRID_SIZE, (y - OFFSET)/GRID_SIZE);
+        if(cells[index] == 0) {
+            cells[index] = 1;
+        }else{
+            cells[index] = 0;
         }
-    }else{
+    }
+    
         /*for(int i=0; i<size; i++){            
             int topmid = cells[i];
             int topleft = cells[topmid - 1];
@@ -88,6 +87,5 @@ void Grid::update(){
                 if(cells_neighbour[j] == 1) countAlive += 1;
             }
         }*/
-    }
     
 }
