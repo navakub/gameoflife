@@ -14,6 +14,10 @@ const int BOARD_HEIGHT = SCREEN_HEIGHT - 2*OFFSET;
 const int NUM_ROW = BOARD_HEIGHT/GRID_SIZE;
 const int NUM_COL = BOARD_WIDTH/GRID_SIZE;
 
+
+const char* txt_start ="START";
+const char* txt_stop = "STOP";
+const char* txt_clear = "CLEAR";
 const int BTN_WIDTH = SCREEN_WIDTH - BOARD_WIDTH - 2*OFFSET;
 const int BTN_HEIGHT = 50;
 

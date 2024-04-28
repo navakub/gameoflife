@@ -29,9 +29,11 @@ bool Button::isOnButton(){
 
 void Button::onButtonClicked(){
     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && isOnButton()){
-        if(strcmp(text, "start") == 0 && !isRunning){
+        if(strcmp(text, txt_start) == 0 && !isRunning){
             isRunning = true;
-        }else if(strcmp(text, "stop") == 0 && isRunning){
+        }else if(strcmp(text, txt_stop) == 0 && isRunning){
+            isRunning = false;
+        }else if(strcmp(text, txt_clear) == 0 && isRunning){
             isRunning = false;
         }
     }

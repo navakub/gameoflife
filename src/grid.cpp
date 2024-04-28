@@ -2,7 +2,7 @@
 #include "screen.h"
 #include "grid.h"
 
-Grid::Grid(int _gridSize, int _numRow, int _numCol){ 
+Grid::Grid(int _gridSize, int _numRow, int _numCol){
     gridSize = _gridSize;
     numRow = _numRow;
     numCol = _numCol;
