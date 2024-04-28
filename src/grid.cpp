@@ -2,10 +2,15 @@
 #include "screen.h"
 #include "grid.h"
 
+
 Grid::Grid(int _gridSize, int _numRow, int _numCol){
     gridSize = _gridSize;
     numRow = _numRow;
     numCol = _numCol;
+
+    size = numRow * numCol;
+    cells = new int[size];
+    new_cells = new int[size];
 }
 
 void Grid::initialiseCells(){
@@ -52,6 +57,7 @@ void Grid::draw(){
 void Grid::update(){
     int x = GetMouseX();
     int y = GetMouseY();
+    // int* cells_neighbour = new int[8];
     
     if(!isRunning){
         if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && isOnBoard(x, y)) {
@@ -62,6 +68,26 @@ void Grid::update(){
                 cells[index] = 0;
             }
         }
+    }else{
+        /*for(int i=0; i<size; i++){            
+            int topmid = cells[i];
+            int topleft = cells[topmid - 1];
+            int topright = cells[topmid + 1];
+            int left = cells[i - 1];
+            int self = cells[i];
+            int right = cells[i + 1];
+            int botmid = cells[i];
+            int botleft = cells[botmid - 1];
+            int botright = cells[botmid + 1];
+
+            cells_neighbour = {topleft, topmid, topright, left, right, botleft, botmid, botright};
+            int countAlive = 0;
+            int countDead = 0;
+            for(int j=0; j<8; j++){
+                if(cells_neighbour[j] == 0) countDead += 1;
+                if(cells_neighbour[j] == 1) countAlive += 1;
+            }
+        }*/
     }
     
 }

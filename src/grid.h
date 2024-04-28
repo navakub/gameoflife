@@ -22,7 +22,7 @@ private:
     int numRow;
     int numCol;
 
-    int size = numRow * numCol;
-    int* cells = new int[size];
-    int* new_cells = new int[size];
+    int size;
+    int* cells;
+    int* new_cells;
 };

@@ -1,8 +1,8 @@
 #include <raylib.h>
-#include "button.h"
 #include "screen.h"
-#include <string.h>
+#include "button.h"
 
+#include <string.h>
 
 Button::Button(const char* _text, int _font_size, int _x, int _y, int _w, int _h, Color _color){ 
     text = _text;
