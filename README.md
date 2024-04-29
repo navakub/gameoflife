@@ -24,7 +24,3 @@ The template is from this [tutorial video](https://www.youtube.com/watch?v=PaAcV
     - **SPACEBAR** <u>again</u> to continue the simulation
 - after simulation  
     - **R** to reset the simulation
-
-
-- game of life: 2-d zero-player game
-- use Raylib
