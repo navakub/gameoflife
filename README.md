@@ -9,3 +9,17 @@ The template is from this (tutorial video)[https://www.youtube.com/watch?v=PaAcV
 # What I'm doing
 - game of life: 2-d zero-player game
 - parallel code speed comparison (OpenMP)
+
+# GUI keybinds
+- before simulation 
+    - **LEFT CLICK** to mark cells, **RIGHT CLICK** to unmark the cells 
+    - **C** to clear the cells
+    - **ENTER** to start the simulation
+- during simulation
+    - **SPACEBAR** to pause the simulation
+    - **SPACEBAR** again to continue the simulation
+- after simulation  
+    - **S** to stop the simulation
+    - **R** to reset the simulation
+
+
