@@ -10,7 +10,8 @@ The template is from this [tutorial video](https://www.youtube.com/watch?v=PaAcV
 - Conway's Game of Life: 2-d zero-player game
     - a cell is born if there are exactly 3 neighbouring alive cells
     - a cell remains alive if there are 2 or 3 neighbouring alive cells, otherwise the cell is dead
-- use Raylib for graphics and input control
+- use **C++** and **Raylib** for graphics and input control
+- use **C++** for all calculations
 
 # GUI keybinds
 - before simulation 
