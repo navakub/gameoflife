@@ -17,5 +17,9 @@ void showKeyBinds(bool run, bool pause){
 }
 
 void showInfo(bool run, bool pause){
-    DrawText(TextFormat("No: %d", NUM_EVOLUTIONS), 2*OFFSET + BOARD_WIDTH, BOARD_HEIGHT, FONT_SIZE, BLACK);
+    if(isRunning) {
+        DrawText(TextFormat("time elapsed: %.3lf ms", t_elapsed), 2*OFFSET + BOARD_WIDTH, BOARD_HEIGHT- 2*TEXT_SPACING, FONT_SIZE, BLACK);
+        DrawText(TextFormat("evolution: %d", NUM_EVOLUTIONS), 2*OFFSET + BOARD_WIDTH, BOARD_HEIGHT - TEXT_SPACING, FONT_SIZE, BLACK);
+    }
+    DrawText(TextFormat("FPS: %d", FPS), 2*OFFSET + BOARD_WIDTH, BOARD_HEIGHT, FONT_SIZE, BLACK);
 }

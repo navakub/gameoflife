@@ -1,8 +1,8 @@
 #include <raylib.h>
 #include <random>
+#include <omp.h>
 #include "screen.h"
 #include "grid.h"
-
 
 Grid::Grid(int _gridSize, int _numRow, int _numCol){
     gridSize = _gridSize;
@@ -78,7 +78,7 @@ void Grid::draw(){
 }
 
 void Grid::update(){
-
+    
     if(!isRunning)
     {
         int x = GetMouseX();
