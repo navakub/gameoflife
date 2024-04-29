@@ -7,19 +7,21 @@
 The template is from this (tutorial video)[https://www.youtube.com/watch?v=PaAcVk5jUd8]
 
 # What I'm doing
-- game of life: 2-d zero-player game
-- parallel code speed comparison (OpenMP)
+- Conway's Game of Life: 2-d zero-player game
+    - a cell is born if there are exactly 3 neighbouring alive cells
+    - a cell remains alive if there are 2 or 3 neighbouring alive cells, otherwise the cell is dead
+- use Raylib for graphics and input control
 
 # GUI keybinds
 - before simulation 
-    - **LEFT CLICK** to mark cells, **RIGHT CLICK** to unmark the cells 
+    - **LEFT MOUSE BUTTON (LMB)** to mark cells
+    - **RIGHT MOUSE BUTTON (RMB)** to unmark the cells 
     - **C** to clear the cells
     - **ENTER** to start the simulation
 - during simulation
     - **SPACEBAR** to pause the simulation
-    - **SPACEBAR** again to continue the simulation
+    - **SPACEBAR** <u>again</u> to continue the simulation
 - after simulation  
-    - **S** to stop the simulation
     - **R** to reset the simulation
 
 
