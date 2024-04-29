@@ -1,4 +1,6 @@
 #include <raylib.h>
+#include "raygui.h"
+#include "button.h"
 
 extern Color BG_COLOR;
 extern int FPS;
@@ -14,10 +16,14 @@ extern int BOARD_HEIGHT;
 extern int NUM_ROW;
 extern int NUM_COL;
 
-extern char* txt_start;
-extern char* txt_stop;
-extern char* txt_clear;   
+extern char* TXT_START;
+extern char* TXT_STOP;
+extern char* TXT_CLEAR;   
 extern int BTN_WIDTH;
 extern int BTN_HEIGHT;
+
+extern Rectangle bounds_start;
+extern Rectangle bounds_stop;
+extern Rectangle bounds_clear;
 
 extern bool isRunning;

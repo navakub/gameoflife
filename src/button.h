@@ -1,20 +1,17 @@
 #pragma once
 
+#include <raylib.h>
+#include "screen.h"
+
+
 class Button
 {
 public:
-    Button(const char* _text, int _font_size, int _x, int _y, int _w, int _h, Color _color);
+    Button(Rectangle _bounds, char* _text);
     void drawButton();
-    
-    bool isOnButton();
-    void onButtonClicked();
+    bool isButtonClicked();
 
 private:
-    const char* text;
-    int font_size;
-    int x;
-    int y;
-    int w;
-    int h;
-    Color color;
+    Rectangle bounds;
+    char* text;
 };

@@ -2,39 +2,18 @@
 #include "screen.h"
 #include "button.h"
 
-#include <string.h>
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
 
-Button::Button(const char* _text, int _font_size, int _x, int _y, int _w, int _h, Color _color){ 
+Button::Button(Rectangle _bounds, char* _text){
+    bounds = _bounds;
     text = _text;
-    font_size = _font_size;
-    x = _x;
-    y = _y;
-    w = _w;
-    h = _h;
-    color = _color;
 }
 
 void Button::drawButton(){
-    DrawRectangle(x, y, w, h, color);
-    Vector2 text_dim = MeasureTextEx(GetFontDefault(), text, font_size, 0.1);
-    int text_width = text_dim.x; int text_height = text_dim.y; 
-    DrawText(text, x + w/2 - text_width, y + text_height/2, 25, BLACK);
+    GuiButton(bounds, text);
 }
 
-bool Button::isOnButton(){
-    int mouseX = GetMouseX();
-    int mouseY = GetMouseY();
-    return mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y +h;
+bool Button::isButtonClicked(){
+    return GuiButton(bounds, text) == 1;
 }
-/*
-void Button::onButtonClicked(){
-    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && isOnButton()){
-        if(strcmp(text, txt_start) == 0 && !isRunning){
-            isRunning = true;
-        }else if(strcmp(text, txt_stop) == 0 && isRunning){
-            isRunning = false;
-        }else if(strcmp(text, txt_clear) == 0 && isRunning){
-            isRunning = false;
-        }
-    }
-}*/
