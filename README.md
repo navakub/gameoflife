@@ -8,4 +8,4 @@ The template is from this (tutorial video)[https://www.youtube.com/watch?v=PaAcV
 
 # What I'm doing
 - game of life: 2-d zero-player game
-- parallel code speed comparison (OpenMP)
+- use Raylib
