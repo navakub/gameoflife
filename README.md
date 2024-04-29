@@ -4,7 +4,7 @@
 3. Press F5 on the keyboard to compile and run the program.
 
 # Reference
-The template is from this (tutorial video)[https://www.youtube.com/watch?v=PaAcVk5jUd8]
+The template is from this [tutorial video](https://www.youtube.com/watch?v=PaAcVk5jUd8)
 
 # What I'm doing
 - Conway's Game of Life: 2-d zero-player game
