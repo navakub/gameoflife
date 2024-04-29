@@ -5,6 +5,7 @@ class Grid
 public:
     Grid(int _gridSize, int _numRow, int _numCol);
     void initialiseCells();
+    int* copyCells(int* c);
 
     int* idx_1d_to_2d(int index);
     int idx_2d_to_1d(int ix, int iy);
@@ -23,6 +24,7 @@ private:
     int numCol;
 
     int size;
+    int* initial_cells;
     int* cells;
     int* new_cells;
 };

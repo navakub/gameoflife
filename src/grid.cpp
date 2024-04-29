@@ -1,6 +1,5 @@
 #include <raylib.h>
 #include "screen.h"
-#include "button.h"
 #include "grid.h"
 
 
@@ -10,15 +9,25 @@ Grid::Grid(int _gridSize, int _numRow, int _numCol){
     numCol = _numCol;
 
     size = numRow * numCol;
+    initial_cells = new int[size];
     cells = new int[size];
     new_cells = new int[size];
 }
 
 void Grid::initialiseCells(){
     for(int i=0; i<size; i++) {
+        initial_cells[i] = 0;
         cells[i] = 0;
         new_cells[i] = 0;
     }
+}
+
+int* Grid::copyCells(int* c){
+    int* nc = new int[size];
+    for(int i=0; i<size; i++){
+        nc[i] = c[i];
+    }
+    return nc;
 }
 
 int* Grid::idx_1d_to_2d(int index){
@@ -40,15 +49,19 @@ int Grid::gridHeight(){
 }
 
 bool Grid::isOnBoard(int pos_x, int pos_y){
-    return pos_x >= OFFSET && pos_x <= OFFSET + BOARD_WIDTH && pos_y >= OFFSET && pos_y <= OFFSET + BOARD_HEIGHT;
+    return pos_x >= OFFSET && pos_x <= OFFSET + this->gridWidth() && pos_y >= OFFSET && pos_y <= OFFSET + this->gridHeight();
 }
 
 void Grid::draw(){
+    int ix, iy, index;
     for(int iy=0; iy<numRow; iy++){
         for(int ix=0; ix<numCol; ix++){
             DrawRectangleLines(OFFSET + ix*gridSize, OFFSET + iy*gridSize, gridSize, gridSize, BLACK);
 
-            if(new_cells[idx_2d_to_1d(ix, iy)] == 1){
+            index = idx_2d_to_1d(ix, iy);
+            if(initial_cells[index] == 1 && !isRunning){
+                DrawRectangle(OFFSET + ix*gridSize, OFFSET + iy*gridSize, gridSize, gridSize, BLACK);
+            }else if(cells[index] == 1  && isRunning){
                 DrawRectangle(OFFSET + ix*gridSize, OFFSET + iy*gridSize, gridSize, gridSize, BLACK);
             }
         }
@@ -56,29 +69,42 @@ void Grid::draw(){
 }
 
 void Grid::update(){
-    int x = GetMouseX();
-    int y = GetMouseY();
-    //int cells_neighbour[8];
-    //int topmid, botmid, self;
-    /*
+/*
+    if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) DrawText(!isRunning ? "T" : "F", x-10, y, 16, BLACK);
+*/ 
+
+    
     if(!isRunning)
     {
+        int x = GetMouseX();
+        int y = GetMouseY();
         int index = idx_2d_to_1d((x - OFFSET)/GRID_SIZE, (y - OFFSET)/GRID_SIZE);
         if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && isOnBoard(x, y)) {
-            if(cells[index] == 0) {
-                cells[index] = 1;
+            if(initial_cells[index] == 0) {
+                initial_cells[index] = 1;
             }
         }else if(IsMouseButtonDown(MOUSE_BUTTON_RIGHT) && isOnBoard(x, y)) {
-            if(cells[index] == 1) {
-                cells[index] = 0;
+            if(initial_cells[index] == 1) {
+                initial_cells[index] = 0;
             }
-        }   
+        }
+        if(IsKeyPressed(KEY_C)) initialiseCells();
+        if(IsKeyPressed(KEY_ENTER)) isRunning = true;
     }
-    else if(isRunning)
+    else if(isRunning && !isPaused)
     {
+        if(IsKeyPressed(KEY_SPACE)) isPaused = true;
+
+        cells = copyCells(initial_cells);
+
+        int cells_neighbour[8];
+        int topmid, botmid, self;
+        int countAlive, countDead;
+        
         for(int time=0; time<10; time++)
         {
-            for(int i=0; i<size; i++){
+            for(int i=0; i<size; i++)
+            {
                 topmid = i - NUM_ROW;
                 botmid = i + NUM_ROW;
                 self = i;
@@ -92,8 +118,8 @@ void Grid::update(){
                 cells_neighbour[7] = botmid + 1 <= size ? cells[botmid + 1] : 0; // botright
                 
 
-                int countAlive = 0;
-                int countDead = 0;
+                countAlive = 0;
+                countDead = 0;
                 for(int j=0; j<8; j++){
                     if(cells_neighbour[j] == 0) countDead += 1;
                     if(cells_neighbour[j] == 1) countAlive += 1;
@@ -103,20 +129,15 @@ void Grid::update(){
                 if((countAlive == 2 || countAlive == 3) && cells[i] == 1) new_cells[i] = 1;
                 if((countAlive != 2 || countAlive != 3) && cells[i] == 1) new_cells[i] = 0;   
             }
-            
-            for(int i=0; i<size; i++){
-                cells[i] = new_cells[i];
-            }
+            cells = copyCells(new_cells);
         }
-    } */
-    int index = idx_2d_to_1d((x - OFFSET)/GRID_SIZE, (y - OFFSET)/GRID_SIZE);
-        if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && isOnBoard(x, y)) {
-            if(cells[index] == 0) {
-                cells[index] = 1;
-            }
-        }else if(IsMouseButtonDown(MOUSE_BUTTON_RIGHT) && isOnBoard(x, y)) {
-            if(cells[index] == 1) {
-                cells[index] = 0;
-            }
-        }   
+    }
+    else if(isRunning && isPaused)
+    {
+        if(IsKeyPressed(KEY_SPACE)) isPaused = false;
+        if(IsKeyPressed(KEY_R)){
+            isRunning = false;
+            isPaused = false;
+        }
+    }
 }
