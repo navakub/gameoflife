@@ -5,6 +5,7 @@ class Grid
 public:
     Grid(int _gridSize, int _numRow, int _numCol);
     void initialiseCells();
+    void initialiseRandomCells();
     int* copyCells(int* c);
 
     int* idx_1d_to_2d(int index);

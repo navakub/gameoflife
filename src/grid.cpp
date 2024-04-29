@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <random>
 #include "screen.h"
 #include "grid.h"
 
@@ -19,6 +20,14 @@ void Grid::initialiseCells(){
         initial_cells[i] = 0;
         cells[i] = 0;
         new_cells[i] = 0;
+    }
+}
+
+void Grid::initialiseRandomCells(){
+    for(int i=0; i<size; i++) {
+        initial_cells[i] = rand() % 2;
+        cells[i] = initial_cells[i];
+        new_cells[i] = initial_cells[i];
     }
 }
 
@@ -53,7 +62,7 @@ bool Grid::isOnBoard(int pos_x, int pos_y){
 }
 
 void Grid::draw(){
-    int ix, iy, index;
+    int index;
     for(int iy=0; iy<numRow; iy++){
         for(int ix=0; ix<numCol; ix++){
             DrawRectangleLines(OFFSET + ix*gridSize, OFFSET + iy*gridSize, gridSize, gridSize, BLACK);
@@ -69,11 +78,7 @@ void Grid::draw(){
 }
 
 void Grid::update(){
-/*
-    if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) DrawText(!isRunning ? "T" : "F", x-10, y, 16, BLACK);
-*/ 
 
-    
     if(!isRunning)
     {
         int x = GetMouseX();
@@ -88,6 +93,7 @@ void Grid::update(){
                 initial_cells[index] = 0;
             }
         }
+        if(IsKeyPressed(KEY_R)) initialiseRandomCells();
         if(IsKeyPressed(KEY_C)) initialiseCells();
         if(IsKeyPressed(KEY_ENTER)) isRunning = true;
     }
@@ -95,49 +101,53 @@ void Grid::update(){
     {
         if(IsKeyPressed(KEY_SPACE)) isPaused = true;
 
-        cells = copyCells(initial_cells);
+        if(NUM_EVOLUTIONS == 0) cells = copyCells(initial_cells);
 
         int cells_neighbour[8];
         int topmid, botmid, self;
         int countAlive, countDead;
-        
-        for(int time=0; time<10; time++)
+
+        for(int i=0; i<size; i++)
         {
-            for(int i=0; i<size; i++)
-            {
-                topmid = i - NUM_ROW;
-                botmid = i + NUM_ROW;
-                self = i;
-                cells_neighbour[0] = topmid - 1 >= 0 ? cells[topmid + 1] : 0; // topleft
-                cells_neighbour[1] = topmid >= 0 ? cells[topmid] : 0; // topmid
-                cells_neighbour[2] = topmid + 1 >= 0 ? cells[topmid + 1] : 0; // topright
-                cells_neighbour[3] = (self - 1)%NUM_ROW != 0 ? cells[self - 1] : 0; // left
-                cells_neighbour[4] = (self)%NUM_ROW != 0 ? cells[self + 1] : 0; // right
-                cells_neighbour[5] = botmid - 1 <= size ? cells[botmid - 1] : 0; // botleft
-                cells_neighbour[6] = botmid <= size ? cells[botmid] : 0; // botmid
-                cells_neighbour[7] = botmid + 1 <= size ? cells[botmid + 1] : 0; // botright
-                
+            topmid = i - NUM_ROW;
+            botmid = i + NUM_ROW;
+            self = i;
+            cells_neighbour[0] = topmid - 1 >= 0 ? cells[topmid - 1] : 0; // topleft
+            cells_neighbour[1] = topmid >= 0 ? cells[topmid] : 0; // topmid
+            cells_neighbour[2] = topmid + 1 >= 0 ? cells[topmid + 1] : 0; // topright
+            cells_neighbour[3] = (self) % NUM_COL != 0 ? cells[self - 1] : 0; // left
+            cells_neighbour[4] = (self + 1) % NUM_COL != 0 ? cells[self + 1] : 0; // right
+            cells_neighbour[5] = botmid - 1 <= size ? cells[botmid - 1] : 0; // botleft
+            cells_neighbour[6] = botmid <= size ? cells[botmid] : 0; // botmid
+            cells_neighbour[7] = botmid + 1 <= size ? cells[botmid + 1] : 0; // botright
+            
 
-                countAlive = 0;
-                countDead = 0;
-                for(int j=0; j<8; j++){
-                    if(cells_neighbour[j] == 0) countDead += 1;
-                    if(cells_neighbour[j] == 1) countAlive += 1;
-                }
-
-                if(countAlive == 3 && cells[i] == 0) new_cells[i] = 1;
-                if((countAlive == 2 || countAlive == 3) && cells[i] == 1) new_cells[i] = 1;
-                if((countAlive != 2 || countAlive != 3) && cells[i] == 1) new_cells[i] = 0;   
+            countAlive = 0;
+            countDead = 0;
+            for(int j=0; j<8; j++){
+                if(cells_neighbour[j] == 0) countDead += 1;
+                if(cells_neighbour[j] == 1) countAlive += 1;
             }
-            cells = copyCells(new_cells);
+
+            if(countAlive == 3 && cells[i] == 0) new_cells[i] = 1; // a new cell is born
+            else if((countAlive == 2 || countAlive == 3) && cells[i] == 1) new_cells[i] = 1; // a cell is alive
+            else if((countAlive != 2 || countAlive != 3) && cells[i] == 1) new_cells[i] = 0;  // a cell dies
         }
+    
+        cells = copyCells(new_cells);
+        NUM_EVOLUTIONS += 1;
+        
     }
     else if(isRunning && isPaused)
     {
-        if(IsKeyPressed(KEY_SPACE)) isPaused = false;
+        if(IsKeyPressed(KEY_SPACE)) {
+            isPaused = false;
+        }
         if(IsKeyPressed(KEY_R)){
             isRunning = false;
             isPaused = false;
+            NUM_EVOLUTIONS = 0;
         }
     }
+
 }

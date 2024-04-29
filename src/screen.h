@@ -14,6 +14,8 @@ extern int NUM_COL;
 
 extern int TEXT_SPACING;
 extern int FONT_SIZE;
+extern int NUM_EVOLUTIONS;
+extern double TIME_ELAPSED;
 
 extern bool isRunning;
 extern bool isPaused;
