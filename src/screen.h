@@ -19,4 +19,4 @@ extern int NUM_EVOLUTIONS;
 extern bool isRunning;
 extern bool isPaused;
 
-extern double t1, t2, t_elapsed;
+extern double t1, t2, ts, tp, speedup;

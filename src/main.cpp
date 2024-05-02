@@ -24,12 +24,23 @@ int NUM_EVOLUTIONS = 0;
 bool isRunning = false;
 bool isPaused = false;
 
-double t1, t2, t_elapsed;
+double t1, t2, ts, tp, speedup;
+/*
+void initialiseParameters(){
+    int GRID_SIZE = 1;
+
+    int BOARD_WIDTH = 2000000;
+    int BOARD_HEIGHT = 2000000;
+    int NUM_ROW = BOARD_HEIGHT/GRID_SIZE;
+    int NUM_COL = BOARD_WIDTH/GRID_SIZE;
+}*/
 
 int main()
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "CONWAY'S GAME OF LIFE");
     SetTargetFPS(FPS);
+
+    //initialiseParameters();
 
     Grid grid(GRID_SIZE, NUM_ROW, NUM_COL);
     grid.initialiseCells();
@@ -37,19 +48,13 @@ int main()
 
     while (!WindowShouldClose())
     {
-        if(isRunning && !isPaused) t1 = GetTime();
         grid.update();    
-        if(isRunning && !isPaused){
-            t2 = GetTime();
-            t_elapsed = (t2 - t1) * 1000.0; // millisecond
-        } 
-
+        
         BeginDrawing();
             ClearBackground(BG_COLOR);
-            
             grid.draw();
             showKeyBinds(isRunning, isPaused);
-            showInfo(isRunning, isPaused);
+        showInfo(isRunning, isPaused);
             
         EndDrawing();
     }

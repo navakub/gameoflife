@@ -4,7 +4,10 @@
 #include "screen.h"
 #include "grid.h"
 
+#define THREADS 24
+
 Grid::Grid(int _gridSize, int _numRow, int _numCol){
+    omp_set_num_threads(THREADS);
     gridSize = _gridSize;
     numRow = _numRow;
     numCol = _numCol;
@@ -16,6 +19,7 @@ Grid::Grid(int _gridSize, int _numRow, int _numCol){
 }
 
 void Grid::initialiseCells(){
+    #pragma omp parallel for
     for(int i=0; i<size; i++) {
         initial_cells[i] = 0;
         cells[i] = 0;
@@ -33,6 +37,7 @@ void Grid::initialiseRandomCells(){
 
 int* Grid::copyCells(int* c){
     int* nc = new int[size];
+    #pragma omp parallel for
     for(int i=0; i<size; i++){
         nc[i] = c[i];
     }
@@ -81,6 +86,7 @@ void Grid::update(){
     
     if(!isRunning)
     {
+
         int x = GetMouseX();
         int y = GetMouseY();
         int index = idx_2d_to_1d((x - OFFSET)/GRID_SIZE, (y - OFFSET)/GRID_SIZE);
@@ -99,6 +105,7 @@ void Grid::update(){
     }
     else if(isRunning && !isPaused)
     {
+
         if(IsKeyPressed(KEY_SPACE)) isPaused = true;
 
         if(NUM_EVOLUTIONS == 0) cells = copyCells(initial_cells);
@@ -107,6 +114,7 @@ void Grid::update(){
         int topmid, botmid, self;
         int countAlive, countDead;
 
+        t1 = GetTime();
         for(int i=0; i<size; i++)
         {
             topmid = i - NUM_ROW;
@@ -133,17 +141,51 @@ void Grid::update(){
             else if((countAlive == 2 || countAlive == 3) && cells[i] == 1) new_cells[i] = 1; // a cell is alive
             else if((countAlive != 2 || countAlive != 3) && cells[i] == 1) new_cells[i] = 0;  // a cell dies
         }
-    
+        t2 = GetTime();
+        ts = (t2 - t1) * 1000.0; // millisecond
+
+        t1 = GetTime();
+        omp_set_num_threads(THREADS);
+        #pragma omp for ordered
+        for(int i=0; i<size; i++)
+        {
+            topmid = i - NUM_ROW;
+            botmid = i + NUM_ROW;
+            self = i;
+            cells_neighbour[0] = topmid - 1 >= 0 ? cells[topmid - 1] : 0; // topleft
+            cells_neighbour[1] = topmid >= 0 ? cells[topmid] : 0; // topmid
+            cells_neighbour[2] = topmid + 1 >= 0 ? cells[topmid + 1] : 0; // topright
+            cells_neighbour[3] = (self) % NUM_COL != 0 ? cells[self - 1] : 0; // left
+            cells_neighbour[4] = (self + 1) % NUM_COL != 0 ? cells[self + 1] : 0; // right
+            cells_neighbour[5] = botmid - 1 <= size ? cells[botmid - 1] : 0; // botleft
+            cells_neighbour[6] = botmid <= size ? cells[botmid] : 0; // botmid
+            cells_neighbour[7] = botmid + 1 <= size ? cells[botmid + 1] : 0; // botright
+            
+
+            countAlive = 0;
+            countDead = 0;
+            for(int j=0; j<8; j++){
+                if(cells_neighbour[j] == 0) countDead += 1;
+                if(cells_neighbour[j] == 1) countAlive += 1;
+            }
+
+            if(countAlive == 3 && cells[i] == 0) new_cells[i] = 1; // a new cell is born
+            else if((countAlive == 2 || countAlive == 3) && cells[i] == 1) new_cells[i] = 1; // a cell is alive
+            else if((countAlive != 2 || countAlive != 3) && cells[i] == 1) new_cells[i] = 0;  // a cell dies
+        }
+        t2 = GetTime();
+        tp = (t2 - t1) * 1000.0; // millisecond
+        speedup = ts/tp;
+        
         cells = copyCells(new_cells);
         NUM_EVOLUTIONS += 1;
-        
     }
     else if(isRunning && isPaused)
     {
         if(IsKeyPressed(KEY_SPACE)) {
             isPaused = false;
         }
-        if(IsKeyPressed(KEY_R)){
+        if(IsKeyPressed(KEY_S)){
             isRunning = false;
             isPaused = false;
             NUM_EVOLUTIONS = 0;
