@@ -9,7 +9,7 @@ int FPS = 12;
 int OFFSET = 20;
 
 int SCREEN_WIDTH = 1024;
-int SCREEN_HEIGHT = 768;
+int SCREEN_HEIGHT = SCREEN_WIDTH * 3/4;
 int GRID_SIZE = 10;
 
 int BOARD_WIDTH = SCREEN_HEIGHT - 2*OFFSET;
@@ -25,22 +25,11 @@ bool isRunning = false;
 bool isPaused = false;
 
 double t1, t2, ts, tp, speedup;
-/*
-void initialiseParameters(){
-    int GRID_SIZE = 1;
-
-    int BOARD_WIDTH = 2000000;
-    int BOARD_HEIGHT = 2000000;
-    int NUM_ROW = BOARD_HEIGHT/GRID_SIZE;
-    int NUM_COL = BOARD_WIDTH/GRID_SIZE;
-}*/
 
 int main()
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "CONWAY'S GAME OF LIFE");
     SetTargetFPS(FPS);
-
-    //initialiseParameters();
 
     Grid grid(GRID_SIZE, NUM_ROW, NUM_COL);
     grid.initialiseCells();
