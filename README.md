@@ -12,15 +12,17 @@ The template is from this [tutorial video](https://www.youtube.com/watch?v=PaAcV
     - a cell remains alive if there are 2 or 3 neighbouring alive cells, otherwise the cell is dead
 - use **C++** and **Raylib** for graphics and input control
 - use **C++** for all calculations
+- try to optimise using **OpenMP**
+- ~0.9-1.8 times faster with OpenMP (speedup ~0.9-1.8)
 
 # GUI keybinds
 - before simulation 
-    - **LEFT MOUSE BUTTON (LMB)** to mark cells
-    - **RIGHT MOUSE BUTTON (RMB)** to unmark the cells 
-    - **C** to clear the cells
+    - **LEFT MOUSE BUTTON (LMB)** to mark cell states
+    - **RIGHT MOUSE BUTTON (RMB)** to unmark the cell states
+    - **R** to randomly initialise the cell states
+    - **C** to clear the cell states
     - **ENTER** to start the simulation
 - during simulation
     - **SPACEBAR** to pause the simulation
     - **SPACEBAR** <u>again</u> to continue the simulation
-- after simulation  
-    - **R** to reset the simulation
+    - **S** to stop and reset the simulation when paused
